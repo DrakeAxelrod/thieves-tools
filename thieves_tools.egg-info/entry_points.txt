@@ -1,0 +1,3 @@
+[console_scripts]
+thvtools = thvtools:cli
+
