@@ -5,4 +5,4 @@ import subprocess
 @click.argument("query", nargs=-1)
 def question(query):
   question = "/".join(query)
-  subprocess.call(f"cht.sh gaca{question}", shell=True,)
+  subprocess.call(f"cht.sh {question}", shell=True,)

@@ -1,6 +1,6 @@
 import click
 
-from lib import example, cheatsheet, question
+from lib import cheatsheet, question
 
 # @click.group(invoke_without_command=True)
 @click.group()
@@ -13,6 +13,6 @@ def cli(ctx):
   pass
 
 
-cli.add_command(example)
 cli.add_command(cheatsheet)
 cli.add_command(question)
+

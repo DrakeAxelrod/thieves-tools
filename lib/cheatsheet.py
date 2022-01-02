@@ -5,6 +5,7 @@ import requests
 import webview
 from bs4 import BeautifulSoup
 import json
+import os
 
 def remove_html_tags(soup: BeautifulSoup, list: list):
     for tag in list:
@@ -24,7 +25,7 @@ def open_window(html: str):
         window.evaluate_js(
             "document.addEventListener('keydown', (e) => { if (e.key === 'Escape') pywebview.api.close() });")
     webview.start(addListener, window, debug=True)
-
+    
 
 def generate_window(query):
     soup = BeautifulSoup(query.text, "lxml")
@@ -47,7 +48,7 @@ def cheatsheet(name: str):
             options[item['category']] = [item['slug']]
         else:
             options[item['category']].append(item['slug'])
-    if name.capitalize() in options.keys():
+    if name and name.capitalize() in options.keys():
         result = requests.get("https://www.devhints.io/%s" % name)
         generate_window(result)
     else:
@@ -61,10 +62,11 @@ def cheatsheet(name: str):
         click.echo(click.style("Options", fg="blue"))
         opts: list = []
         for i, option in enumerate(options[category]):
-            opts.append(option)
+            # opts.append(option)
             opt = option.replace(category.lower() + "/", "")
-            click.echo(f"{i +1 }. {opt}")
+            click.echo(f"{i + 1}. {opt}")
+            opts.append(opt)
         ans = click.prompt("option")
-        query = opts[int(ans) - 1]
+        query = opts[int(ans) - 1].capitalize()
         result = requests.get("https://www.devhints.io/%s" % query)
         generate_window(result)
